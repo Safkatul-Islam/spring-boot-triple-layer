@@ -63,22 +63,16 @@ git commit -m "chore(repo): add daily scaffold structure"
 git push origin main
 ```
 
-4) Make the script executable (macOS/Linux):
-```
-chmod +x scripts/new-day.sh
-```
-Run scripts from IntelliJ Terminal: View → Tool Windows → Terminal.
-
 ## Create today’s folder
 
 Option A: Local scripts (recommended initially)
 - macOS/Linux:
   ```
-bash scripts/new-day.sh
+  bash scripts/new-day.sh
   ```
 - Windows (PowerShell):
   ```
-pwsh scripts/new-day.ps1
+  pwsh scripts/new-day.ps1
   ```
 Pass a specific date if needed:
 ```
@@ -98,9 +92,9 @@ Note about time zone:
 ## Daily flow
 1) Scaffold the day’s folder.
 2) Fill in:
-   - daily/YYYY-MM-DD/notes.md
-   - daily/YYYY-MM-DD/quiz.md
-   - daily/YYYY-MM-DD/checklist.md
+  - daily/YYYY-MM-DD/notes.md
+  - daily/YYYY-MM-DD/quiz.md
+  - daily/YYYY-MM-DD/checklist.md
 3) Update progress.md with a new row linking to today’s files.
 4) Commit and push.
 
