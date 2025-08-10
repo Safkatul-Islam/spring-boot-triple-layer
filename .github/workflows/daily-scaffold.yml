@@ -1,0 +1,54 @@
+name: Daily scaffold
+
+on:
+  workflow_dispatch:
+    inputs:
+      date:
+        description: 'YYYY-MM-DD (optional). If empty, uses TODAY in Pacific Time.'
+        required: false
+  schedule:
+    - cron: '5 8 * * *' # Every day at 08:05 UTC (00:05 PT in winter, ~01:05 PT in summer)
+
+permissions:
+  contents: write
+
+jobs:
+  scaffold:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Compute date (Pacific Time)
+        id: date
+        run: |
+          if [ -n "${{ github.event.inputs.date }}" ]; then
+            echo "today=${{ github.event.inputs.date }}" >> "$GITHUB_OUTPUT"
+          else
+            export TZ=America/Los_Angeles
+            echo "today=$(date +%F)" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Create daily folder from templates
+        run: |
+          set -euo pipefail
+          TODAY="${{ steps.date.outputs.today }}"
+          DEST="daily/$TODAY"
+          if [ -d "$DEST" ]; then
+            echo "Folder $DEST already exists. Nothing to do."
+            exit 0
+          fi
+          mkdir -p "$DEST"
+          cp templates/daily/*.md "$DEST"/
+          # Replace placeholders
+          for f in "$DEST"/*.md; do
+            sed -i 's/{{DATE}}/'"$TODAY"'/g' "$f"
+          done
+      - name: Commit and push
+        run: |
+          set -euo pipefail
+          TODAY="${{ steps.date.outputs.today }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "daily/$TODAY"
+          git commit -m "chore(daily): scaffold $TODAY" || { echo "No changes to commit."; exit 0; }
+          git push
