@@ -6,8 +6,9 @@ on:
       date:
         description: 'YYYY-MM-DD (optional). If empty, uses TODAY in Pacific Time.'
         required: false
-  schedule:
-    - cron: '5 8 * * *' # Every day at 08:05 UTC (00:05 PT in winter, ~01:05 PT in summer)
+  # schedule:
+  #   - cron: '5 8 * * *' # Every day at 08:05 UTC (00:05 PT in winter, ~01:05 PT in summer)
+  # Automatic daily scheduling disabled. Use manual trigger above to create daily folders.
 
 # Prevent two runs from editing "main" at the same time
 concurrency:

@@ -33,7 +33,7 @@ This repo helps you track code, notes, and quizzes per day, and grow a portfolio
 │     └─ quiz.md
 ├─ .github/
 │  └─ workflows/
-│     └─ daily-scaffold.yml   (automation for daily folders; Pacific Time)
+│     └─ daily-scaffold.yml   (manual trigger for daily folders; auto-schedule disabled)
 ├─ progress.md
 ├─ .gitignore
 └─ README.md
@@ -80,14 +80,16 @@ bash scripts/new-day.sh 2025-08-10
 pwsh scripts/new-day.ps1 -Date 2025-08-10
 ```
 
-Option B: GitHub Action (server-side)
+Option B: GitHub Action (manual trigger)
 - Go to the Actions tab → Daily scaffold → Run workflow
 - Optional input “date” as YYYY-MM-DD; empty uses today in Pacific Time
-- Scheduled run: every day at 00:05 PT (08:05 UTC). During daylight saving, it runs at ~01:05 PT; see note below.
+- Click "Run workflow" button to manually create a daily folder
+
+- Note: Automatic daily scheduling has been disabled. Use this manual trigger when you want to create a new daily folder.
 
 Note about time zone:
 - The workflow computes “today” using America/Los_Angeles time.
-- Cron is UTC; we schedule at 08:05 UTC (00:05 PT in winter, ~01:05 PT in summer).
+
 
 ## Daily flow
 1) Scaffold the day’s folder.
